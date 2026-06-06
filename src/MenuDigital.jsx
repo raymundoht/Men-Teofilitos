@@ -486,7 +486,7 @@ const MenuDigital = () => {
               <li key={cat} className="flex-shrink-0">
                 <button
                   onClick={() => scrollToCategory(cat)}
-                  className={`font-playfair font-bold text-sm md:text-base px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wide
+                  className={`font-playfair font-bold text-sm md:text-base px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wide whitespace-nowrap
                     ${activeCategory === cat
                       ? 'bg-[#3b271d] text-[#d8c3a5]'
                       : 'text-[#3b271d] hover:bg-[#3b271d] hover:text-[#d8c3a5]'}`}
