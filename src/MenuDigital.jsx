@@ -316,8 +316,10 @@ const MenuDigital = () => {
         `}
       </style>
 
-      {/* ENCABEZADO VINTAGE (Estilo Imagen) */}
-      <header className="bg-[#2b1d14] text-[#d8c3a5] w-full border-b-4 border-[#1a110c] py-2 px-6 sticky top-0 z-50 flex flex-col md:flex-row items-center justify-center min-h-[64px] md:min-h-[80px] shadow-md relative">
+      {/* WRAPPER STICKY PARA HEADER Y NAVEGACIÓN */}
+      <div className="sticky top-0 z-50 w-full flex flex-col shadow-lg">
+        {/* ENCABEZADO VINTAGE (Estilo Imagen) */}
+        <header className="bg-[#2b1d14] text-[#d8c3a5] w-full border-b-4 border-[#1a110c] py-2 px-6 flex flex-col md:flex-row items-center justify-center min-h-[64px] md:min-h-[80px] relative z-20">
         {/* Logo de Teofilitos */}
         <div 
           className="md:absolute md:left-6 flex items-center cursor-pointer select-none mb-1 md:mb-0"
@@ -476,7 +478,7 @@ const MenuDigital = () => {
       )}
 
       {/* MENÚ NAVEGABLE STICKY (Estilo Humo Bar Culinario) */}
-      <nav className="sticky top-16 md:top-20 z-40 shadow-md border-y-2 border-[#2b1d14]" style={{
+      <nav className="border-b-2 border-[#2b1d14] relative z-10" style={{
         backgroundColor: '#d8c3a5',
         backgroundImage: 'url("https://www.transparenttextures.com/patterns/cardboard-flat.png")',
       }}>
@@ -498,6 +500,7 @@ const MenuDigital = () => {
           </ul>
         </div>
       </nav>
+      </div>
 
       {/* CARRUSEL AUTOMÁTICO DE IMÁGENES */}
       <div
