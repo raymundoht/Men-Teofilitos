@@ -6,6 +6,20 @@ import img1 from './assets/IMAGENES TEO/1.png';
 import img2 from './assets/IMAGENES TEO/2.png';
 import img3 from './assets/IMAGENES TEO/3.png';
 import img4 from './assets/IMAGENES TEO/4.png';
+const dishImagesGlob = import.meta.glob('./assets/FOTOS PLATILLOS/*.{png,jpg,jpeg}', { eager: true });
+
+const getDishImage = (dishName) => {
+  const normalizedName = dishName.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+  for (const path in dishImagesGlob) {
+    const filename = path.split('/').pop().replace(/\.(png|jpg|jpeg)$/i, '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+    
+    // Comprobamos si coinciden exactamente o si una cadena incluye a la otra (para errores de ortografía menores como 'molcagete' vs 'molcajete')
+    if (filename === normalizedName || filename.includes(normalizedName) || normalizedName.includes(filename)) {
+      return dishImagesGlob[path].default;
+    }
+  }
+  return null;
+};
 
 const MenuDigital = () => {
   const [activeCategory, setActiveCategory] = useState('Botanas');
@@ -488,7 +502,7 @@ const MenuDigital = () => {
               <li key={cat} className="flex-shrink-0">
                 <button
                   onClick={() => scrollToCategory(cat)}
-                  className={`font-playfair font-bold text-sm md:text-base px-5 py-3 md:py-4 transition-all duration-300 uppercase tracking-wide whitespace-nowrap rounded-t-md border-r border-[#2b1d14]/10 last:border-r-0
+                  className={`font-albertson text-sm md:text-base px-5 py-3 md:py-4 transition-all duration-300 uppercase tracking-wider whitespace-nowrap rounded-t-md border-r border-[#2b1d14]/10 last:border-r-0
                     ${activeCategory === cat
                       ? 'bg-[#3b271d] text-[#d8c3a5]'
                       : 'text-[#3b271d] hover:bg-[#3b271d]/10'}`}
@@ -552,7 +566,7 @@ const MenuDigital = () => {
           >
             {/* Título de la Categoría */}
             <div className="mb-8 text-center relative">
-              <h2 className="font-rye text-4xl inline-block bg-[#3b271d] text-[#d8c3a5] px-8 py-2 uppercase tracking-wider relative z-10">
+              <h2 className="font-albertson text-4xl md:text-5xl inline-block bg-[#3b271d] text-[#d8c3a5] px-8 py-2 uppercase tracking-wider relative z-10">
                 {category}
               </h2>
               <div className="absolute top-1/2 left-0 w-full h-[2px] bg-[#3b271d] -z-0"></div>
@@ -561,32 +575,44 @@ const MenuDigital = () => {
             {/* Lista de Platillos */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
               {menuData[category].map((item, index) => (
-                <div key={index} className="flex flex-col md:flex-row gap-4 group">
+                <div key={index} className="flex flex-col h-full">
+                  
+                  {/* Foto del platillo si existe en la carpeta FOTOS PLATILLOS */}
+                  {(() => {
+                    const dishImg = getDishImage(item.name);
+                    return dishImg ? (
+                      <div className="w-full mb-4 rounded-sm border-2 border-[#2b1d14] overflow-hidden bg-[#2b1d14] shadow-sm">
+                        <img src={dishImg} alt={item.name} className="w-full h-48 md:h-56 object-cover hover:scale-105 transition-transform duration-500" />
+                      </div>
+                    ) : null;
+                  })()}
 
-                  {/* Si el platillo tiene imagen (Estilo destacado) */}
-                  {item.img && (
-                    <div className="w-full md:w-48 h-32 md:h-full bg-[#3b271d] rounded-sm flex items-center justify-center p-2 border-2 border-[#2b1d14]">
-                      <div className="w-full h-full border border-dashed border-[#d8c3a5] flex items-center justify-center text-center p-2">
-                        <span className="font-courier text-[#d8c3a5] text-xs leading-tight">
-                          {item.img}
+                  <div className="flex flex-col md:flex-row gap-4 group flex-grow">
+                    {/* Si el platillo tiene imagen (Estilo destacado) */}
+                    {item.img && (
+                      <div className="w-full md:w-48 h-32 md:h-full bg-[#3b271d] rounded-sm flex items-center justify-center p-2 border-2 border-[#2b1d14] flex-shrink-0">
+                        <div className="w-full h-full border border-dashed border-[#d8c3a5] flex items-center justify-center text-center p-2">
+                          <span className="font-courier text-[#d8c3a5] text-xs leading-tight">
+                            {item.img}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Detalles del Platillo */}
+                    <div className="flex-grow flex flex-col">
+                      <div className="flex justify-between items-baseline border-b-2 border-dotted border-[#2b1d14] pb-1 mb-2">
+                        <h3 className="font-playfair font-bold text-xl md:text-2xl uppercase tracking-wide text-[#2b1d14]">
+                          {item.name}
+                        </h3>
+                        <span className="font-courier font-bold text-lg md:text-xl whitespace-nowrap ml-4 text-[#2b1d14]">
+                          {item.price}
                         </span>
                       </div>
+                      <p className="font-sans text-sm md:text-base leading-relaxed text-[#4a3627]">
+                        {item.desc}
+                      </p>
                     </div>
-                  )}
-
-                  {/* Detalles del Platillo */}
-                  <div className="flex-grow flex flex-col justify-center">
-                    <div className="flex justify-between items-baseline border-b-2 border-dotted border-[#2b1d14] pb-1 mb-2">
-                      <h3 className="font-playfair font-bold text-xl md:text-2xl uppercase tracking-wide">
-                        {item.name}
-                      </h3>
-                      <span className="font-courier font-bold text-lg md:text-xl whitespace-nowrap ml-4">
-                        {item.price}
-                      </span>
-                    </div>
-                    <p className="font-sans text-sm md:text-base leading-relaxed text-[#4a3627]">
-                      {item.desc}
-                    </p>
                   </div>
                 </div>
               ))}
