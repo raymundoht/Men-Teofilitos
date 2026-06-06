@@ -348,7 +348,7 @@ const MenuDigital = () => {
         {/* Botón de Reservaciones en el extremo derecho */}
         <button
           onClick={() => setReservationOpen(true)}
-          className="absolute right-4 md:right-6 border-2 border-[#a68a6d] text-[#a68a6d] hover:bg-[#a68a6d] hover:text-[#2b1d14] px-3 py-1.5 md:px-4 md:py-2 text-[10px] sm:text-xs md:text-sm font-playfair font-bold uppercase tracking-wider transition-colors duration-300 rounded-sm cursor-pointer z-50"
+          className="absolute right-2 sm:right-4 md:right-6 border border-[#a68a6d] text-[#a68a6d] hover:bg-[#a68a6d] hover:text-[#2b1d14] px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-1.5 text-[8px] sm:text-[10px] md:text-xs font-playfair font-bold uppercase tracking-wide transition-colors duration-300 rounded-sm cursor-pointer z-50"
         >
           Reservaciones
         </button>
