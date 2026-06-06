@@ -476,20 +476,20 @@ const MenuDigital = () => {
       )}
 
       {/* MENÚ NAVEGABLE STICKY (Estilo Humo Bar Culinario) */}
-      <nav className="sticky top-16 md:top-20 z-40 py-3 shadow-md border-y-2 border-[#2b1d14]" style={{
+      <nav className="sticky top-16 md:top-20 z-40 shadow-md border-y-2 border-[#2b1d14]" style={{
         backgroundColor: '#d8c3a5',
         backgroundImage: 'url("https://www.transparenttextures.com/patterns/cardboard-flat.png")',
       }}>
-        <div className="max-w-4xl mx-auto px-4 overflow-x-auto no-scrollbar">
-          <ul className="flex space-x-2 md:space-x-6 items-center">
+        <div className="max-w-5xl mx-auto px-2 overflow-x-auto no-scrollbar">
+          <ul className="flex items-end">
             {categories.map((cat) => (
               <li key={cat} className="flex-shrink-0">
                 <button
                   onClick={() => scrollToCategory(cat)}
-                  className={`font-playfair font-bold text-sm md:text-base px-4 py-2 rounded-sm transition-all duration-300 uppercase tracking-wide whitespace-nowrap
+                  className={`font-playfair font-bold text-sm md:text-base px-5 py-3 md:py-4 transition-all duration-300 uppercase tracking-wide whitespace-nowrap rounded-t-md border-r border-[#2b1d14]/10 last:border-r-0
                     ${activeCategory === cat
                       ? 'bg-[#3b271d] text-[#d8c3a5]'
-                      : 'text-[#3b271d] hover:bg-[#3b271d] hover:text-[#d8c3a5]'}`}
+                      : 'text-[#3b271d] hover:bg-[#3b271d]/10'}`}
                 >
                   {cat}
                 </button>
