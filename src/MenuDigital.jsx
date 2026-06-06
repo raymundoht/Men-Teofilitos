@@ -52,23 +52,12 @@ const MenuDigital = () => {
   // Generate available times depending on selected day of the week
   const availableTimes = React.useMemo(() => {
     if (!resDay) return [];
-    const [year, month, day] = resDay.split('-').map(Number);
-    const dateObj = new Date(year, month - 1, day);
-    const dayOfWeek = dateObj.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-    // 0 (Sun), 1 (Mon), 2 (Tue) -> closes at 12 am (midnight)
-    // 3 (Wed), 4 (Thu), 5 (Fri), 6 (Sat) -> closes at 2 am
-    const isExtended = dayOfWeek === 3 || dayOfWeek === 4 || dayOfWeek === 5 || dayOfWeek === 6;
-
+    
     const list = [];
-    list.push("12:00 PM", "12:30 PM");
-    for (let h = 1; h <= 11; h++) {
+    for (let h = 2; h <= 7; h++) {
       list.push(`${h}:00 PM`, `${h}:30 PM`);
     }
-
-    if (isExtended) {
-      list.push("12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM");
-    }
+    list.push("8:00 PM");
 
     return list;
   }, [resDay]);
@@ -356,46 +345,14 @@ const MenuDigital = () => {
           </span>
         </div>
 
-        {/* Botón de Menú Hamburguesa en el extremo derecho */}
+        {/* Botón de Reservaciones en el extremo derecho */}
         <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="absolute right-4 md:right-6 text-[#d8c3a5] hover:text-[#a68a6d] transition-all duration-300 cursor-pointer p-2 z-50"
-          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          onClick={() => setReservationOpen(true)}
+          className="absolute right-4 md:right-6 border-2 border-[#a68a6d] text-[#a68a6d] hover:bg-[#a68a6d] hover:text-[#2b1d14] px-3 py-1.5 md:px-4 md:py-2 text-[10px] sm:text-xs md:text-sm font-playfair font-bold uppercase tracking-wider transition-colors duration-300 rounded-sm cursor-pointer z-50"
         >
-          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          Reservaciones
         </button>
       </header>
-
-      {/* MENÚ HAMBURGUESA OVERLAY (Discreto Dropdown Flotante) */}
-      <div className={`fixed right-6 top-16 md:top-20 z-50 w-60 bg-[#2b1d14] border-2 border-[#1a110c] rounded-md shadow-2xl p-4 transition-all duration-300 transform origin-top-right ${menuOpen ? 'scale-100 opacity-100 pointer-events-auto' : 'scale-95 opacity-0 pointer-events-none'}`}>
-        <div className="flex flex-col space-y-2">
-          <button
-            onClick={() => {
-              setMenuOpen(false);
-              const menuElement = document.querySelector('nav');
-              if (menuElement) {
-                const yOffset = -150; // Offset for sticky header + nav
-                const y = menuElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-              } else {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }
-            }}
-            className="font-playfair font-bold text-base text-left text-[#d8c3a5] hover:text-[#a68a6d] transition-colors uppercase tracking-wider py-2 border-b border-[#3b271d] cursor-pointer"
-          >
-            Menú
-          </button>
-          <button
-            onClick={() => {
-              setMenuOpen(false);
-              setReservationOpen(true);
-            }}
-            className="font-playfair font-bold text-base text-left text-[#d8c3a5] hover:text-[#a68a6d] transition-colors uppercase tracking-wider py-2 cursor-pointer"
-          >
-            Reservaciones
-          </button>
-        </div>
-      </div>
 
       {/* MODAL DE RESERVACIONES */}
       {reservationOpen && (
